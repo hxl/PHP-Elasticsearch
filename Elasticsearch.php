@@ -224,7 +224,7 @@ class Elasticsearch
         if (!$this->errorInfo) {
             $this->ch = curl_init();
             curl_setopt($this->ch, CURLOPT_URL, $this->uri);
-            curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+            curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
             curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, $this->timeOut);
             curl_setopt($this->ch, CURLOPT_TIMEOUT, $this->timeOut);
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
@@ -866,8 +866,10 @@ class Elasticsearch
     private function post()
     {
         curl_setopt($this->ch, CURLOPT_POST, true);
-        curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($this->data));
-
+        if(count($this->data))
+        {
+            curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($this->data));
+        }
         return $this;
     }
 
